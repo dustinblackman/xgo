@@ -17,11 +17,12 @@ rm -rf /deps-build && cp -r $1 /deps-build
 # Build all the dependencies (no order for now)
 for dep in `ls /deps-build`; do
 	echo "Configuring dependency $dep for $HOST..."
-	(cd /deps-build/$dep && ./configure --disable-shared --host=$HOST --prefix=$PREFIX --silent ${@:2})
+	(cd /deps-build/$dep && ./configure --disable-shared --host=$HOST --prefix=$PREFIX ${@:2})
 
 	echo "Building dependency $dep for $HOST..."
-	(cd /deps-build/$dep && make --silent -j install)
+	(cd /deps-build/$dep && make -j install)
 done
 
 # Remove any build artifacts
+echo "REMOVING DEPS-BUILD"
 rm -rf /deps-build
