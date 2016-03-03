@@ -16,13 +16,12 @@ rm -rf /deps-build && cp -r $1 /deps-build
 
 # Build all the dependencies (no order for now)
 for dep in `ls /deps-build`; do
-	echo "Configuring dependency $dep for $HOST..."
-	(cd /deps-build/$dep && ./configure --disable-shared --host=$HOST --prefix=$PREFIX ${@:2})
+	echo "Configuring dependency $dep for $HOST... ABCD"
+	(cd /deps-build/$dep && ./configure --disable-shared --host=$HOST --prefix=$PREFIX ${@:2} && echo "Building dependency $dep for $HOST... ACBCD123" && make && sudo make -j install && sudo ldconfig && cd .. && rm -rf /deps-build/$dep && echo "DELETED BUILDS")
 
-	echo "Building dependency $dep for $HOST..."
-	(cd /deps-build/$dep && make -j install)
+	# echo "Building dependency $dep for $HOST..."
+	# (cd /deps-build/$dep && make && sudo make -j install && sudo ldconfig && cd .. && rm -rf /deps-build/$dep && echo "DELETED BUILDS")
 done
-
+ 
 # Remove any build artifacts
-echo "REMOVING DEPS-BUILD"
 rm -rf /deps-build
